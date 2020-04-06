@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+    http://dubbo.apache.org/schema/dubbo
+    http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+
+    <!-- 1. 指定当前应用（服务）的名称，不要和别的服务重名 -->
+    <dubbo:application name="user-service-provider"/>
+
+    <!-- 2. 指定注册中心的位置 -->
+    <!--    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>-->
+    <dubbo:registry protocol="zookeeper" address="127.0.0.1:2181"/>
+
+    <!-- 3. 指定通信协议和端口 -->
+    <dubbo:protocol name="dubbo" port="20880"/>
+
+    <!-- 4. 暴露服务,ref指向服务的真实实现 -->
+    <dubbo:service interface="me.guozi.gmail.api.UserService" ref="userService" timeout="3000" version="1.0.0"
+        stub="me.guozi.gmail.api.UserServiceStub"/>
+
+    <!-- 5. 服务实现 -->
+    <bean id="userService" class="me.guozi.gmail.service.impl.UserServiceImpl"/>
+</beans>
